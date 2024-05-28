@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String        @id @default(cuid())
+  name            String?
+  email           String        @unique
+  password        String?
+  emailVerified   DateTime?
+  emailVerifToken String?
+  image           String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  accounts        Account[]
+  sessions        Session[]
+  postProducts    PostProduct[]
+  brandCars       CarBrand[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Status {
+  ARCHIVED
+  PUBLISHED
+  DRAFT
+}
+
+model PostProduct {
+  id            String    @id @default(cuid())
+  title         String
+  description   String
+  price         String
+  status        Status
+  exteriorImage String[]
+  interiorImage String[]
+  technology    String[]
+  safety        String[]
+  performance   String[]
+  userId        String
+  carBrandId    String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  carBrand      CarBrand? @relation(fields: [carBrandId], references: [id], onDelete: Cascade)
+}
+
+model Testimonial {
+  id         String    @id @default(cuid())
+  customer   String
+  image      String
+  testimoni  String
+  status     Status    @default(DRAFT)
+  carBrandId String?
+  carBrand   CarBrand? @relation(fields: [carBrandId], references: [id], onDelete: Cascade)
+}
+
+model CarBrand {
+  id           String        @id @default(cuid())
+  name         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  postProducts PostProduct[]
+  testimonial  Testimonial[]
+  logo         String
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
