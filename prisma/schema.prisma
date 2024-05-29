@@ -63,6 +63,7 @@ model PostProduct {
   description   String
   price         String
   status        Status
+  image String
   exteriorImage String[]
   interiorImage String[]
   technology    String[]

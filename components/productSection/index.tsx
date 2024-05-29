@@ -9,7 +9,23 @@ import { FaArrowRight } from "react-icons/fa";
 import { Pagination } from "swiper/modules";
 import Link from "next/link";
 
-export const ProductSection = () => {
+interface carBrand {
+	name: string;
+}
+
+interface Product {
+	id: string;
+	title: string;
+	price: string;
+	image: string;
+	category: carBrand;
+}
+
+interface ProductProps {
+	data?: Product[];
+}
+
+export const ProductSection = ({ data }: ProductProps) => {
 	return (
 		<div className='w-full h-auto flex flex-col gap-10  z-[200]'>
 			<div className='flex flex-row justify-between items-center pt-10 pr-[450px] pl-10  z-20'>
@@ -27,31 +43,22 @@ export const ProductSection = () => {
 					pagination={{
 						clickable: true,
 					}}>
-					<SwiperSlide>
-						<div className='px-8'>
-							<CardProduct />
-						</div>
-					</SwiperSlide>
-					<SwiperSlide>
-						<div className='px-8'>
-							<CardProduct />
-						</div>
-					</SwiperSlide>
-					<SwiperSlide>
-						<div className='px-8'>
-							<CardProduct />
-						</div>
-					</SwiperSlide>
-					<SwiperSlide>
-						<div className='px-8'>
-							<CardProduct />
-						</div>
-					</SwiperSlide>
-					<SwiperSlide>
-						<div className='px-8'>
-							<CardProduct />
-						</div>
-					</SwiperSlide>
+					{data &&
+						data.map((item, index) => (
+							<>
+								<SwiperSlide key={index}>
+									<div className='px-8'>
+										<CardProduct
+											id={item.id}
+											title={item.title}
+											category={item.category}
+											price={item.price}
+											image={item.image}
+										/>
+									</div>
+								</SwiperSlide>
+							</>
+						))}
 				</Swiper>
 			</div>
 		</div>

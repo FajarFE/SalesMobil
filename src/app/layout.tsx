@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "@/libs/providers";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -21,7 +19,7 @@ export default function RootLayout({
 	// This Root Layout serves as the canvas for our application's visual structure
 	return (
 		<html lang='en'>
-			<body className={inter.className}>
+			<body>
 				<main>
 					<Providers>{children}</Providers>
 				</main>

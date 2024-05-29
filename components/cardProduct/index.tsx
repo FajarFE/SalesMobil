@@ -1,8 +1,28 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
 import { GiCarKey } from "react-icons/gi";
 import { IoCarSportOutline } from "react-icons/io5";
 
-export const CardProduct = () => {
+interface carBrand {
+	name: string;
+}
+
+interface ProductData {
+	id: string;
+	title: string;
+	price: string;
+	image: string;
+	category: carBrand;
+}
+
+export const CardProduct = ({
+	id,
+	title,
+	price,
+	image,
+	category,
+}: ProductData) => {
 	return (
 		<div
 			style={{
@@ -19,22 +39,20 @@ export const CardProduct = () => {
 				/>
 			</div>
 			<div className='flex flex-col gap-2'>
-				<div className='font-bold  text-xl'>Anjay</div>
-				<div className='text-lg'>Rp. 500.000.000</div>
+				<div className='font-bold  text-xl'>{title}</div>
+				<div className='text-lg'>Rp. {price}</div>
 				<div className='flex flex-row gap-5 justify-start items-center'>
 					<div className='flex flex-row text-lg gap-2 justify-start items-center'>
 						<GiCarKey size={30} />
-						<div>Hyundai</div>
-					</div>
-					<div className='flex flex-row text-lg gap-2 justify-start items-center'>
-						<IoCarSportOutline size={30} />
-						<div>Type C</div>
+						<div>{category.name}</div>
 					</div>
 				</div>
 			</div>
-			<button className='w-full justify-center items-center py-3 text-md bg-black text-white rounded-full'>
-				Find More
-			</button>
+			<Link
+				href={`/detail/${id}`}
+				className='w-full justify-center items-center py-3 text-md bg-black text-white rounded-full'>
+				Detail
+			</Link>
 		</div>
 	);
 };

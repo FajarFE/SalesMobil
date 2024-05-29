@@ -6,6 +6,8 @@ const nextConfig = {
 			"www.hyundai.com",
 			"hyundaimobil.co.id",
 			"localhost",
+			"s7d1.scene7.com",
+			"stat.overdrive.in",
 		],
 	},
 };
