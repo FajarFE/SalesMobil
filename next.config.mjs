@@ -10,6 +10,7 @@ const nextConfig = {
 			"stat.overdrive.in",
 			"www.pngkey.com",
 			"images.unsplash.com",
+			"sales-mobil.vercel.app",
 		],
 	},
 	experimental: {

@@ -70,7 +70,7 @@ export const DetailProduct = ({
 						{data.technology.map((item, index) => (
 							<div className='relative col-span-3' key={index}>
 								<Image
-									src={`http://localhost:3000/images/${item}`}
+									src={`${baseUrl}/images/${item}`}
 									alt={`uploaded Image`}
 									width='800'
 									height={500}
@@ -86,7 +86,7 @@ export const DetailProduct = ({
 						{data.safety.map((item, index) => (
 							<div className='relative col-span-3' key={index}>
 								<Image
-									src={`http://localhost:3000/images/${item}`}
+									src={`${baseUrl}/images/${item}`}
 									alt={`uploaded Image`}
 									width='800'
 									height={500}
@@ -102,7 +102,7 @@ export const DetailProduct = ({
 						{data.interiorImage.map((image, index) => (
 							<div className='relative col-span-3' key={index}>
 								<Image
-									src={`http://localhost:3000/images/${image}`}
+									src={`${baseUrl}/images/${image}`}
 									alt={`uploaded Image`}
 									width='800'
 									height={500}
@@ -118,7 +118,7 @@ export const DetailProduct = ({
 						{data.exteriorImage.map((image, index) => (
 							<div className='relative col-span-3' key={index}>
 								<Image
-									src={`http://localhost:3000/images/${image}`}
+									src={`${baseUrl}/images/${image}`}
 									alt={`uploaded Image`}
 									width='800'
 									height={500}
