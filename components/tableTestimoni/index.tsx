@@ -58,6 +58,8 @@ export interface DataTestimoni {
 }
 
 export const TableTestimoni = ({ data }: DataTestimoni) => {
+	const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+
 	const [index, setIndex] = useState<number | null>(null);
 	const [open, setOpen] = useState<boolean>(false);
 

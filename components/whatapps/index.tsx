@@ -1,16 +1,16 @@
 import React from "react";
 
 interface WhatsAppChatProps {
-	phoneNumber: string;
+	numberPhone: string;
 	message: string;
 }
 
 const WhatsAppChat: React.FC<WhatsAppChatProps> = ({
-	phoneNumber,
+	numberPhone,
 	message,
 }) => {
 	// Hapus karakter non-digit dari nomor telepon
-	const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
+	const cleanedPhoneNumber = numberPhone.replace(/\D/g, "");
 
 	// Encode pesan template untuk URL
 	const encodedMessage = encodeURIComponent(message);

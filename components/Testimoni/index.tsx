@@ -1,11 +1,6 @@
 "use client";
 import React from "react";
-import ChartOne from "../Charts/ChartOne";
-import ChartThree from "../Charts/ChartThree";
-import ChartTwo from "../Charts/ChartTwo";
-import ChatCard from "../Chat/ChatCard";
-import TableOne, { DataProduct } from "../Tables/TableOne";
-import MapOne from "../Maps/MapOne";
+
 import CardDataStats from "../CardDataStats";
 import FormCreateBrands from "../createBrand";
 import FormCreateProducts, { carBrand, dataCategory } from "../createProduct";

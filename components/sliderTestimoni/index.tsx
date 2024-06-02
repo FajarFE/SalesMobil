@@ -27,6 +27,9 @@ interface DemoSliderProps {
 }
 
 const SliderTestimoni: React.FC<DemoSliderProps> = ({ data }) => {
+	const baseUrl =
+		process.env.NEXT_PUBLIC_IMAGE_BASE_URL || "http://localhost:3000";
+
 	const [swiper, setSwiper] = useState<SwiperClass | null>(null);
 	const prevRef = useRef(null);
 	const nextRef = useRef(null);
@@ -86,7 +89,7 @@ const SliderTestimoni: React.FC<DemoSliderProps> = ({ data }) => {
 												<div className='col-span-3 w-full h-full pr-12 py-12 relative'>
 													<div className='rounded-3xl bg-[#A89A89] overflow-hidden h-full relative flex w-full'>
 														<Image
-															src={`http://localhost:3000/images/${data.image}`}
+															src={`${baseUrl}/images/${data.image}`}
 															alt={`uploaded Image`}
 															width='100'
 															height={100}

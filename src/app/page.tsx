@@ -30,9 +30,15 @@ export default async function Home() {
 		},
 	});
 
+	const Contact = await prisma.myContact.findMany({
+		select: { numberPhone: true, message: true },
+	});
+
+	const dataContact = Contact[0];
 	return (
 		<div className='w-full h-auto '>
 			<LandingPage
+				dataContact={dataContact && dataContact}
 				dataProduct={Product && Product}
 				dataTestimoni={Testimoni && Testimoni}
 			/>

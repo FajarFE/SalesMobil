@@ -2,7 +2,23 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export const Contact = () => {
+interface WhatsAppChatProps {
+	numberPhone: string;
+	message: string;
+}
+
+export const Contact: React.FC<WhatsAppChatProps> = ({
+	numberPhone,
+	message,
+}) => {
+	// Hapus karakter non-digit dari nomor telepon
+	const cleanedPhoneNumber = numberPhone?.replace(/\D/g, "");
+
+	// Encode pesan template untuk URL
+	const encodedMessage = encodeURIComponent(message);
+
+	// Buat tautan WhatsApp dengan pesan template
+	const whatsappLink = `https://wa.me/${cleanedPhoneNumber}?text=${encodedMessage}`;
 	return (
 		<>
 			<div className='w-full h-screen max-w-[1960px] max-h-[780px] flex overflow-hidden justify-center items-center relative '>
@@ -11,7 +27,7 @@ export const Contact = () => {
 						Hubungi Kami untuk Detail Mobil Impian Anda{" "}
 					</div>
 					<Link
-						href='adokdoa'
+						href={whatsappLink}
 						className=' bg-black text-2xl px-4 py-3 rounded-full text-white'>
 						Contact Sales
 					</Link>

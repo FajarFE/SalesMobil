@@ -118,6 +118,8 @@ interface user {
 }
 
 export const Profile = ({ id, name, image }: user) => {
+	const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+
 	const form = useForm<z.infer<typeof profileSchema>>({
 		resolver: zodResolver(profileSchema),
 		defaultValues: {

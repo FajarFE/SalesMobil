@@ -41,6 +41,8 @@ export const InputImage = ({
 	handleFileChange,
 	name,
 }: propsInputImage) => {
+	const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+
 	return (
 		<FormField
 			control={control}
@@ -71,7 +73,7 @@ export const InputImage = ({
 														key={index}
 														style={{ minWidth: "100px", minHeight: "100px" }}>
 														<Image
-															src={`http://localhost:3000/images/${item}`}
+															src={`${baseUrl}/images/${item}`}
 															alt={`uploaded Image`}
 															width='100'
 															height={100}

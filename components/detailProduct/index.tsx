@@ -25,6 +25,8 @@ export const DetailProduct = ({
 		return <div>Data not available</div>;
 	}
 
+	const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+
 	return (
 		<div className={`${className}`}>
 			{children}
@@ -32,7 +34,7 @@ export const DetailProduct = ({
 			<div className='container w-full h-auto mx-auto max-w-8xl flex flex-col justify-center items-center gap-10'>
 				<div className='w-full  h-auto rounded-xl overflow-hidden'>
 					<Image
-						src={`http://localhost:3000/images/${data.image}`}
+						src={`${baseUrl}/images/${data.image}`}
 						alt='Car Headline'
 						width={14000}
 						height={600}
@@ -52,7 +54,7 @@ export const DetailProduct = ({
 						{data.performance.map((item, index) => (
 							<div className='relative col-span-3' key={index}>
 								<Image
-									src={`http://localhost:3000/images/${item}`}
+									src={`${baseUrl}/images/${item}`}
 									alt={`uploaded Image`}
 									width='800'
 									height={500}

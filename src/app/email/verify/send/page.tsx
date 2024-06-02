@@ -1,5 +1,5 @@
-import Form from "@/components/email/verify/send/form";
-import Image from "next/image";
+"use client";
+import { Form } from "@/components/send";
 
 export default function Home() {
 	return <Form />;

@@ -47,6 +47,7 @@ export interface DataProduct {
 }
 
 const TableProduct = ({ data }: DataProduct) => {
+	const baseUrl = process.env.BASE_URL || "http://localhost:3000";
 	const [index, setIndex] = useState<number | null>(null);
 	const [open, setOpen] = useState<boolean>(false);
 
@@ -215,7 +216,7 @@ const TableProduct = ({ data }: DataProduct) => {
 														key={key}
 														style={{ minWidth: "100px", minHeight: "100px" }}>
 														<Image
-															src={`http://localhost:3000/images/${data}`}
+															src={`${baseUrl}/images/${data}`}
 															alt={`uploaded Image`}
 															width='100'
 															height={100}
@@ -235,7 +236,7 @@ const TableProduct = ({ data }: DataProduct) => {
 														key={key}
 														style={{ minWidth: "100px", minHeight: "100px" }}>
 														<Image
-															src={`http://localhost:3000/images/${data}`}
+															src={`${baseUrl}/images/${data}`}
 															alt={`uploaded Image`}
 															width='100'
 															height={100}
@@ -255,7 +256,7 @@ const TableProduct = ({ data }: DataProduct) => {
 														key={key}
 														style={{ minWidth: "100px", minHeight: "100px" }}>
 														<Image
-															src={`http://localhost:3000/images/${data}`}
+															src={`${baseUrl}/images/${data}`}
 															alt={`uploaded Image`}
 															width='100'
 															height={100}
@@ -275,7 +276,7 @@ const TableProduct = ({ data }: DataProduct) => {
 														key={key}
 														style={{ minWidth: "100px", minHeight: "100px" }}>
 														<Image
-															src={`http://localhost:3000/images/${data}`}
+															src={`${baseUrl}/images/${data}`}
 															alt={`uploaded Image`}
 															width='100'
 															height={100}

@@ -1,6 +1,5 @@
 "use client";
-import { createProduct, uploadFileToS3 } from "@/actions/createProductPost";
-// Importing necessary modules and components
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";

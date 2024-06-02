@@ -123,7 +123,7 @@ export const CreateContact = ({ contact }: dataContactProps) => {
 									</FormItem>
 								)}
 							/>
-							<WhatsAppChat phoneNumber={dataNomor} message={dataPesan} />
+							<WhatsAppChat numberPhone={dataNomor} message={dataPesan} />
 							<Button type='submit'>Submit</Button>
 						</form>
 					</Form>
@@ -158,7 +158,7 @@ export const CreateContact = ({ contact }: dataContactProps) => {
 									</FormItem>
 								)}
 							/>
-							<WhatsAppChat phoneNumber={dataNomor} message={dataPesan} />
+							<WhatsAppChat numberPhone={dataNomor} message={dataPesan} />
 							<Button type='submit'>Submit</Button>
 						</form>
 					</Form>
@@ -169,7 +169,7 @@ export const CreateContact = ({ contact }: dataContactProps) => {
 						<div>{contact && contact[0].numberPhone}</div>
 						<div>{contact && contact[0].message}</div>
 						<WhatsAppChat
-							phoneNumber={
+							numberPhone={
 								(contact && (contact[0]?.numberPhone! as string)) ?? "adad"
 							}
 							message={(contact && (contact[0]?.message! as string)) ?? ""}

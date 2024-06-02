@@ -32,13 +32,20 @@ interface Slide {
 	carBrand: carBrand | null;
 }
 
+interface WhatsAppChatProps {
+	numberPhone: string;
+	message: string;
+}
+
 interface ProductProps {
 	dataProduct: Product[];
 	dataTestimoni: Slide[];
+	dataContact: WhatsAppChatProps;
 }
 export default function LandingPage({
 	dataProduct,
 	dataTestimoni,
+	dataContact,
 }: ProductProps) {
 	const DataNavbar = [
 		{ link: "product", title: "Cars" },
@@ -72,7 +79,7 @@ export default function LandingPage({
 				</div>
 			</Element>
 			<Element id='contact' name='contact'>
-				<Contact />
+				<Contact {...dataContact} />
 			</Element>
 			<Footer
 				name='Honda Tulungagung'

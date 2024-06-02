@@ -30,7 +30,8 @@ export async function generateMetadata(
 	{ params, searchParams }: Props,
 	parent: ResolvingMetadata
 ): Promise<Metadata> {
-	// read route params
+	const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+
 	const id = params.id;
 
 	// fetch data
@@ -67,9 +68,7 @@ export async function generateMetadata(
 	const description = product.description;
 
 	// Construct image URLs
-	const images = allImages.map(
-		(image) => `http://localhost:3000/images/${image}`
-	);
+	const images = allImages.map((image) => `${baseUrl}/images/${image}`);
 	const openGraphImages = [...images];
 	return {
 		title: title,

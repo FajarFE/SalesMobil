@@ -4,7 +4,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import { useSearchParams } from "next/navigation";
 import { resendVerificationEmail } from "@/libs/email";
 
-export default function Form() {
+export function Form() {
 	const searchParams = useSearchParams();
 
 	// Extracting email and verification_sent status from search parameters
@@ -92,7 +92,6 @@ export default function Form() {
 	);
 }
 
-// Fungsi untuk mengubah waktu menjadi format menit:detik
 function formatTime(seconds: number) {
 	const minutes = Math.floor(seconds / 60);
 	const remainingSeconds = seconds % 60;

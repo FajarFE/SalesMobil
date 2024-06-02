@@ -164,6 +164,7 @@ const generateEmailVerificationToken = () => {
 export const sendVerificationEmail = async (email: string, token: string) => {
 	// nodemailer configuration. make sure to replace this with your native email provider in production.
 	// we will use mailtrap in this tutorial, so make sure you have the correct configuration in your .env
+	const baseUrl = process.env.BASE_URL || "http://localhost:3000";
 
 	const resend = new Resend(process.env.RESEND_API);
 
@@ -234,7 +235,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
             <div class="content">
                 <p>Hello,</p>
                 <p>Terima Kasih Sudah Mendaftar.Tolong Verifikasi Email:</p>
-                <p><a href="http://localhost:3000/email/verify?email=${email}&token=${token}" class="btn">Verify Email</a></p>
+                <p><a href="${baseUrl}/email/verify?email=${email}&token=${token}" class="btn">Verify Email</a></p>
             </div>
             <div class="footer">
                 <p>&copy; 2024 Your Company. All rights reserved.</p>

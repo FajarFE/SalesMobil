@@ -25,6 +25,8 @@ export const CardProduct = ({
 	className,
 	carBrand,
 }: ProductData) => {
+	const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+	const imageUrl = `${baseUrl}/images/${image}`;
 	return (
 		<div
 			style={{
@@ -33,7 +35,7 @@ export const CardProduct = ({
 			className={`flex flex-col w-full h-auto gap-5 rounded-[40px] p-8 ${className}`}>
 			<div className='w-[470px] h-[240px] relative justify-center items-center'>
 				<Image
-					src={`http://localhost:3000/images/${image}`}
+					src={imageUrl}
 					alt='owakdoado'
 					width={600}
 					height={600}
