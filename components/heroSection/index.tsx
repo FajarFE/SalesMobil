@@ -7,12 +7,12 @@ export const HeroSection = () => {
 	const DataNavbar = [
 		{ link: "product", title: "Cars" },
 		{ link: "testimoni", title: "Testimoni" },
-		{ link: "solusi", title: "Solusi" },
+		{ link: "solution", title: "Solusi" },
 	];
 	return (
 		<div className='w-full h-screen  min-h-[800px] max-h-[911px]  relative mx-auto  bg-gradient-to-br from-[#F2F1F0] to-[#C2B292] overflow-hidden'>
 			<Navbar
-				className='w-full max-w-8xl py-5 -mb-[92px] text-lg uppercase font-bold flex-row flex justify-between items-center container mx-auto'
+				className='w-full max-w-8xl py-5 -mb-[92px] text-lg uppercase font-bold flex-row z-50 relative flex justify-between items-center container mx-auto'
 				data={DataNavbar}
 				nama='Honda Tulungagung'
 			/>

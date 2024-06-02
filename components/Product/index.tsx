@@ -4,7 +4,7 @@ import ChartOne from "../Charts/ChartOne";
 import ChartThree from "../Charts/ChartThree";
 import ChartTwo from "../Charts/ChartTwo";
 import ChatCard from "../Chat/ChatCard";
-import TableOne, { DataProduct } from "../Tables/TableOne";
+import TableOne from "../Tables/TableOne";
 import MapOne from "../Maps/MapOne";
 import CardDataStats from "../CardDataStats";
 import FormCreateBrands from "../createBrand";
@@ -13,33 +13,35 @@ import { FaCar } from "react-icons/fa";
 import { RiArchiveDrawerFill, RiDraftFill } from "react-icons/ri";
 import { MdOutlinePublish } from "react-icons/md";
 import TableProduct from "../tableProduct";
+import { dataProduct } from "../editProduct";
 
-const Product = ({ data }: DataProduct) => {
+export interface DataProduct {
+	data: dataProduct[];
+	archivedCount: string;
+	productCount: string;
+	draftCount: string;
+	publishCount: string;
+}
+const Product = ({
+	data,
+	productCount,
+	archivedCount,
+	draftCount,
+	publishCount,
+}: DataProduct) => {
 	return (
 		<>
 			<div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5'>
-				<CardDataStats
-					title='Total Product'
-					total='$3.456K'
-					rate='0.43%'
-					levelUp>
+				<CardDataStats title='Total Produk' total={productCount}>
 					<FaCar size={40} />
 				</CardDataStats>
-				<CardDataStats
-					title='Total Archived'
-					total='$45,2K'
-					rate='4.35%'
-					levelUp>
+				<CardDataStats title='Total Archived' total={archivedCount}>
 					<RiArchiveDrawerFill size={40} />
 				</CardDataStats>
-				<CardDataStats title='Total Draft' total='2.450' rate='2.59%' levelUp>
+				<CardDataStats title='Total Draft' total={draftCount}>
 					<RiDraftFill size={40} />
 				</CardDataStats>
-				<CardDataStats
-					title='Total Publish'
-					total='3.456'
-					rate='0.95%'
-					levelDown>
+				<CardDataStats title='Total Publish' total={publishCount}>
 					<MdOutlinePublish size={40} />
 				</CardDataStats>
 			</div>

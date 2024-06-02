@@ -225,12 +225,11 @@ export default function FormCreateBrands() {
 						data={dataLogo}
 						progress={uploadProgressLogo}
 						handleFileChange={handleFileChangeLogo}
-						handleRemoveFile={handleRemoveFileLogo}
+						handleRemoveSingleFile={handleRemoveFileLogo}
 						handleFileDrops={handleFileDropLogo}
 						control={form.control}
 					/>
-					<AlertDialogAction type='submit'>Selesai</AlertDialogAction>
-					<AlertDialogCancel>Cancel</AlertDialogCancel>
+					<Button type='submit'>Submit</Button>
 				</form>
 			</Form>
 		</div>

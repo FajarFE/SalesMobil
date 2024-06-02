@@ -18,9 +18,11 @@ model User {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   accounts        Account[]
+  myContact MyContact[]
   sessions        Session[]
   postProducts    PostProduct[]
   brandCars       CarBrand[]
+  testimonials Testimonial[]
 }
 
 model Account {
@@ -82,9 +84,11 @@ model Testimonial {
   customer   String
   image      String
   testimoni  String
+   userId       String
   status     Status    @default(DRAFT)
   carBrandId String?
   carBrand   CarBrand? @relation(fields: [carBrandId], references: [id], onDelete: Cascade)
+   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model CarBrand {
@@ -97,4 +101,12 @@ model CarBrand {
   logo         String
   userId       String
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MyContact {
+ id           String        @id @default(cuid())
+ numberPhone String
+ message String
+ userId       String
+  user         User          @relation(fields: [userId], references: [id],onDelete: Cascade)
 }

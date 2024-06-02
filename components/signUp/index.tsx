@@ -7,18 +7,31 @@
 import Link from "next/link";
 import { signUp } from "@/actions/signup";
 import { useFormState, useFormStatus } from "react-dom";
-export default function Form() {
+import Image from "next/image";
+interface RegisterForm {
+	children: React.ReactNode;
+}
+export default function Form({ children }: RegisterForm) {
 	// Using useFormState to manage the form state and handle sign-up actions
 	const [formState, action] = useFormState(signUp, {
 		errors: {},
 	});
 
 	const { pending } = useFormStatus();
-	// Rendering the sign-up form
+
 	return (
-		<div className='space-y-3 items-center'>
-			<form action={action}>
-				<div className='flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8'>
+		<div className='w-full h-screen grid grid-cols-12 bg-black relative'>
+			<Image
+				src='https://s7d1.scene7.com/is/image/hyundai/2024-ev-campaign-hp2-ext-1440-1919?wid=1919&qlt=85,0&fmt=webp'
+				alt='anjay'
+				width={2200}
+				height={900}
+				className='absolute bottom-0 w-[2200px]'
+			/>
+			<form
+				className='w-full h-full p-10 z-10 col-span-4 justify-center items-center flex'
+				action={action}>
+				<div className='flex flex-col gap-10 px-20 rounded-lg h-full w-full justify-center items-center bg-gray-50  pb-4 pt-8'>
 					<h1 className='mb-3 text-2xl'>Sign Up Now!</h1>
 					<div className='w-full mb-4'>
 						{/* Email Input */}
@@ -102,8 +115,10 @@ export default function Form() {
 							Login
 						</Link>
 					</div>
+					{children}
 				</div>
 			</form>
+			<div className='col-span-8 relative flex w-full h-full justify-center items-center'></div>
 		</div>
 	);
 }

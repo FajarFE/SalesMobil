@@ -8,6 +8,8 @@ const nextConfig = {
 			"localhost",
 			"s7d1.scene7.com",
 			"stat.overdrive.in",
+			"www.pngkey.com",
+			"images.unsplash.com",
 		],
 	},
 };

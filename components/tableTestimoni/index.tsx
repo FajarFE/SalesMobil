@@ -34,6 +34,15 @@ import PostDelete from "../deleteProduct";
 import { IoImages } from "react-icons/io5";
 import { MdEdit } from "react-icons/md";
 import { carBrand } from "../createProduct";
+import TestimonialDelete from "../deleteTestimoni";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
 
 export interface Testimoni {
 	testimoni: string;
@@ -76,30 +85,23 @@ export const TableTestimoni = ({ data }: DataTestimoni) => {
 		<div className='rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:py-10 lg:py-10'>
 			<div className='flex flex-row justify-between items-center pr-10'>
 				<h4 className='mb-6 text-xl font-semibold text-black  dark:text-white'>
-					PRODUCT POST
+					TESTIMONI POST
 				</h4>
 				<div className='flex flex-row gap-5 justify-center items-center'>
-					<AlertDialog>
-						<AlertDialogTrigger className='bg-slate-400 flex flex-row justify-center items-center gap-2 text-white rounded-md px-4 py-2'>
+					<Dialog>
+						<DialogTrigger className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base'>
 							<IoMdAdd />
 							<div>Category</div>
-						</AlertDialogTrigger>
-						<AlertDialogContent>
-							<AlertDialogHeader>
-								<AlertDialogTitle>
-									Tambahkan Category Brand Mobil
-								</AlertDialogTitle>
-								<AlertDialogDescription>
-									<FormCreateBrands />
-								</AlertDialogDescription>
-							</AlertDialogHeader>
-						</AlertDialogContent>
-					</AlertDialog>
+						</DialogTrigger>
+						<DialogContent>
+							<FormCreateBrands />
+						</DialogContent>
+					</Dialog>
 					<Link
 						className='bg-slate-400 flex flex-row justify-center items-center gap-2 text-white rounded-md px-4 py-2'
-						href='/admin/product/create'>
+						href='/admin/testimoni/create'>
 						<IoMdAdd />
-						<div>Product</div>
+						<div>Testimoni</div>
 					</Link>
 				</div>
 			</div>
@@ -158,7 +160,7 @@ export const TableTestimoni = ({ data }: DataTestimoni) => {
 								</p>
 							</div>
 							<div className='flex items-center col-span-2 justify-center p-2.5 xl:p-5'>
-								<p className='text-meta-3'>${product.status}</p>
+								<p className='text-meta-3'>{product.status}</p>
 							</div>
 							<div className='flex items-center col-span-1 justify-center p-2.5 xl:p-5'>
 								<p className='text-meta-3'>
@@ -168,12 +170,12 @@ export const TableTestimoni = ({ data }: DataTestimoni) => {
 							<div className='col-span-1 flex justify-center items-center'>
 								<Link
 									className='bg-cyan-200 text-black rounded-lg py-2 px-4 flex justify-center items-center'
-									href={`/admin/product/edit/${product.id}`}>
+									href={`/admin/testimoni/edit/${product.id}`}>
 									<MdEdit size={25} />
 								</Link>
 							</div>
 							<div className='col-span-1 flex justify-center items-center '>
-								<PostDelete id={product.id} />
+								<TestimonialDelete id={product.id} />
 							</div>
 							<div className='col-span-1 w-full h-auto flex justify-center items-center'>
 								<button

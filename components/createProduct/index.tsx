@@ -56,6 +56,95 @@ export interface dataCategory {
 	data: carBrand[];
 }
 
+const handleSingleUploadFiles = async (
+	event: React.ChangeEvent<HTMLInputElement>,
+	callback: (file: any) => void,
+	onProgress: (progress: number) => void
+) => {
+	event.preventDefault();
+	event.stopPropagation();
+	const files = event.target.files;
+	console.log(files);
+	if (files && files.length > 0) {
+		const file = files[0];
+		let uploadedSize = 0;
+		const totalSize = file.size;
+		try {
+			const formData = new FormData();
+			formData.append("name", file);
+
+			const xhr = new XMLHttpRequest();
+
+			// Set event listener to track upload progress
+			xhr.upload.addEventListener("progress", (event) => {
+				if (event.lengthComputable) {
+					const progress = Math.round((event.loaded / totalSize) * 100);
+					onProgress(progress);
+				}
+			});
+
+			xhr.open("POST", `/images/change`);
+
+			xhr.onload = function () {
+				if (xhr.status === 200) {
+					const responseData = JSON.parse(xhr.responseText);
+					callback(responseData.data);
+				} else {
+					console.error("Request failed with status:", xhr.status);
+				}
+			};
+
+			xhr.send(formData);
+		} catch (error) {
+			console.error("Error uploading image:", error);
+		}
+	}
+};
+
+const handleSingleDropsFiles = async (
+	event: React.DragEvent<HTMLDivElement>,
+	callback: (file: any) => void,
+	onProgress: (progress: number) => void
+) => {
+	event.preventDefault();
+	event.stopPropagation();
+	const files = event.dataTransfer.files;
+	if (files && files.length > 0) {
+		const file = files[0];
+		let uploadedSize = 0;
+		const totalSize = file.size;
+
+		try {
+			const formData = new FormData();
+			formData.append("file", file);
+
+			const xhr = new XMLHttpRequest();
+
+			// Set event listener to track upload progress
+			xhr.upload.addEventListener("progress", (event) => {
+				if (event.lengthComputable) {
+					const progress = Math.round((event.loaded / totalSize) * 100);
+					onProgress(progress);
+				}
+			});
+
+			xhr.open("POST", `/images/change`);
+
+			xhr.onload = function () {
+				if (xhr.status === 200) {
+					const responseData = JSON.parse(xhr.responseText);
+					callback(responseData.data);
+				} else {
+					console.error("Request failed with status:", xhr.status);
+				}
+			};
+
+			xhr.send(formData);
+		} catch (error) {
+			console.error("Error uploading image:", error);
+		}
+	}
+};
 const handleUploadFiles = async (
 	event: React.ChangeEvent<HTMLInputElement>,
 	callback: (files: any[]) => void,
@@ -177,6 +266,7 @@ export default function FormCreateProducts({ data }: dataCategory) {
 		useState<number>(0);
 	const [uploadProgressSafety, setUploadProgressSafety] = useState<number>(0);
 	const [uploadProgressTechno, setUploadProgressTechno] = useState<number>(0);
+	const [uploadProgressImage, setUploadProgressImage] = useState<number>(0);
 	const router = useRouter();
 	const form = useForm<z.infer<typeof PostProductFrontSchema>>({
 		resolver: zodResolver(PostProductFrontSchema),
@@ -189,6 +279,41 @@ export default function FormCreateProducts({ data }: dataCategory) {
 			status: "DRAFT",
 		},
 	});
+
+	const handleFileChangeImage = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		event.preventDefault();
+		event.stopPropagation();
+		handleSingleUploadFiles(
+			event,
+			(newFiles) => {
+				form.setValue("image", newFiles);
+			},
+			(progress) => {
+				setUploadProgressImage(progress);
+			}
+		);
+	};
+
+	const handleFileDropImage = (event: React.DragEvent<HTMLDivElement>) => {
+		event.preventDefault();
+		event.stopPropagation();
+		handleSingleDropsFiles(
+			event,
+			(newFiles) => {
+				form.setValue("image", newFiles);
+			},
+			(progress) => {
+				setUploadProgressImage(progress);
+			}
+		);
+	};
+
+	const handleRemoveFileImage = (e: any) => {
+		e.preventDefault();
+		form.setValue("image", "");
+	};
 
 	const handleFileChangePerformance = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -381,6 +506,7 @@ export default function FormCreateProducts({ data }: dataCategory) {
 		try {
 			const dataToSubmit = {
 				title: values.title,
+				image: values.image,
 				status: values.status,
 				description: values.desc,
 				category: values.carBrandId,
@@ -407,13 +533,10 @@ export default function FormCreateProducts({ data }: dataCategory) {
 
 			const result = await response.json();
 			console.log("Success:", result);
-
-			// Redirect after successful response
-			revalidatePath("/admin/product");
 		} catch (error) {
 			console.error("Error:", error);
-			// Handle error here, if necessary
 		}
+
 		router.push("/admin/product");
 	};
 
@@ -422,9 +545,21 @@ export default function FormCreateProducts({ data }: dataCategory) {
 	const dataInterior = form.watch("interior");
 	const dataExterior = form.watch("exterior");
 	const dataTechnology = form.watch("technology");
+	const dataImage = form.watch("image");
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+				<InputImage
+					label='Image Headline'
+					name='image'
+					data={dataImage}
+					multiple={false}
+					progress={uploadProgressImage}
+					handleFileChange={handleFileChangeImage}
+					handleRemoveSingleFile={handleRemoveFileImage}
+					handleFileDrops={handleFileDropImage}
+					control={form.control}
+				/>
 				<FormField
 					control={form.control}
 					name='title'

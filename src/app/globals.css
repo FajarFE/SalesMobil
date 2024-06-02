@@ -89,3 +89,7 @@ body {
 .swiper {
 	overflow: visible !important;
 }
+
+html {
+	scroll-behavior: smooth;
+}

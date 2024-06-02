@@ -13,7 +13,8 @@ interface ProductData {
 	title: string;
 	price: string;
 	image: string;
-	category: carBrand;
+	carBrand?: carBrand | null;
+	className?: string;
 }
 
 export const CardProduct = ({
@@ -21,17 +22,18 @@ export const CardProduct = ({
 	title,
 	price,
 	image,
-	category,
+	className,
+	carBrand,
 }: ProductData) => {
 	return (
 		<div
 			style={{
 				backgroundImage: "linear-gradient(to bottom right, #E2DDD6, #A89A89)",
 			}}
-			className='flex flex-col w-full h-auto gap-5 rounded-[40px] p-8'>
+			className={`flex flex-col w-full h-auto gap-5 rounded-[40px] p-8 ${className}`}>
 			<div className='w-[470px] h-[240px] relative justify-center items-center'>
 				<Image
-					src='https://www.hyundai.com/content/dam/hyundai/ww/en/images/find-a-car/all-vehicles/ioniq-phev-ae-pe-quater-view.png'
+					src={`http://localhost:3000/images/${image}`}
 					alt='owakdoado'
 					width={600}
 					height={600}
@@ -44,13 +46,13 @@ export const CardProduct = ({
 				<div className='flex flex-row gap-5 justify-start items-center'>
 					<div className='flex flex-row text-lg gap-2 justify-start items-center'>
 						<GiCarKey size={30} />
-						<div>{category.name}</div>
+						<div>{carBrand?.name || "Unknown Brand"}</div>
 					</div>
 				</div>
 			</div>
 			<Link
-				href={`/detail/${id}`}
-				className='w-full justify-center items-center py-3 text-md bg-black text-white rounded-full'>
+				href={`/product/${id}`}
+				className='w-full justify-center flex items-center py-3 text-md bg-black text-white rounded-full'>
 				Detail
 			</Link>
 		</div>

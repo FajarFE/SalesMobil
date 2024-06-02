@@ -7,9 +7,14 @@ import { useFormState, useFormStatus } from "react-dom";
 import { redirect, useSearchParams } from "next/navigation";
 import { authenticate } from "@/libs/email";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 // Defining the Login Form Component
-export default function Form() {
+
+interface LoginForm {
+	children: React.ReactNode;
+}
+export default function Form({ children }: LoginForm) {
 	// Obtaining form state and action from useFormState hook
 	const [formState, action] = useFormState(authenticate, "awdoikaodkoad");
 	const { data: session } = useSession();
@@ -25,9 +30,20 @@ export default function Form() {
 
 	// Rendering the Login Form JSX content
 	return (
-		<div className='space-y-3 items-center'>
-			<form action={action}>
-				<div className='flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8'>
+		<div className='w-full h-screen grid grid-cols-12 bg-black relative'>
+			<Image
+				src='https://s7d1.scene7.com/is/image/hyundai/2024-ev-campaign-hp2-ext-1440-1919?wid=1919&qlt=85,0&fmt=webp'
+				alt='anjay'
+				width={2200}
+				height={900}
+				className='absolute bottom-0 w-[2200px]'
+			/>
+
+			<div className='col-span-8 relative flex w-full h-full justify-center items-center'></div>
+			<form
+				className='w-full h-full p-10 z-10 col-span-4 justify-center items-center flex'
+				action={action}>
+				<div className='flex justify-center items-center flex-col rounded-2xl w-full h-full bg-gray-50 pb-4 pt-8 gap-10 px-20'>
 					<h1 className='mb-3 text-2xl'>Please log in to continue.</h1>
 					<div className='w-full mb-4'>
 						{/* Email Input Field */}
@@ -78,10 +94,11 @@ export default function Form() {
 					{/* Link to Signup Page */}
 					<div className='mt-4 text-center'>
 						Don&apos;t have an account?&nbsp;
-						<Link className='underline' href='/signup'>
+						<Link className='underline' href='/register'>
 							Sign Up
 						</Link>
 					</div>
+					{children}
 				</div>
 			</form>
 		</div>

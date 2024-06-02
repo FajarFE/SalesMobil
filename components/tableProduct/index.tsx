@@ -33,6 +33,14 @@ import { useFormState } from "react-dom";
 import PostDelete from "../deleteProduct";
 import { IoImages } from "react-icons/io5";
 import { MdEdit } from "react-icons/md";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
 
 export interface DataProduct {
 	data: Product[];
@@ -69,22 +77,15 @@ const TableProduct = ({ data }: DataProduct) => {
 					PRODUCT POST
 				</h4>
 				<div className='flex flex-row gap-5 justify-center items-center'>
-					<AlertDialog>
-						<AlertDialogTrigger className='bg-slate-400 flex flex-row justify-center items-center gap-2 text-white rounded-md px-4 py-2'>
+					<Dialog>
+						<DialogTrigger className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base'>
 							<IoMdAdd />
 							<div>Category</div>
-						</AlertDialogTrigger>
-						<AlertDialogContent>
-							<AlertDialogHeader>
-								<AlertDialogTitle>
-									Tambahkan Category Brand Mobil
-								</AlertDialogTitle>
-								<AlertDialogDescription>
-									<FormCreateBrands />
-								</AlertDialogDescription>
-							</AlertDialogHeader>
-						</AlertDialogContent>
-					</AlertDialog>
+						</DialogTrigger>
+						<DialogContent>
+							<FormCreateBrands />
+						</DialogContent>
+					</Dialog>
 					<Link
 						className='bg-slate-400 flex flex-row justify-center items-center gap-2 text-white rounded-md px-4 py-2'
 						href='/admin/product/create'>

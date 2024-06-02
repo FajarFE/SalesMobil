@@ -16,8 +16,11 @@ interface propsInputImage {
 	control: Control<any>;
 	handleFileDrops?: (event: React.DragEvent<HTMLDivElement>) => void;
 	handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	handleRemoveFile: (
+	handleRemoveFile?: (
 		index: number,
+		event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => void;
+	handleRemoveSingleFile?: (
 		event: React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) => void;
 	name: string;
@@ -32,6 +35,7 @@ export const InputImage = ({
 	label,
 	handleFileDrops,
 	handleRemoveFile,
+	handleRemoveSingleFile,
 	progress,
 	multiple,
 	handleFileChange,
@@ -75,7 +79,9 @@ export const InputImage = ({
 														/>
 														<button
 															className='absolute top-0 right-0'
-															onClick={(e) => handleRemoveFile(index, e)}>
+															onClick={(e) =>
+																handleRemoveFile && handleRemoveFile(index, e)
+															}>
 															<MdDelete size={25} className='text-slate-200' />
 														</button>
 													</div>
@@ -93,7 +99,10 @@ export const InputImage = ({
 													/>
 													<button
 														className='absolute top-0 right-0'
-														onClick={(e) => handleRemoveFile(0, e)}>
+														onClick={(e) =>
+															handleRemoveSingleFile &&
+															handleRemoveSingleFile(e)
+														}>
 														<MdDelete size={25} className='text-slate-200' />
 													</button>
 												</div>

@@ -15,6 +15,7 @@ export const PostProductSchema = z.object({
 export const PostProductFrontSchema = z.object({
 	title: z.string().min(1, "Isi Title"),
 	desc: z.string().min(1, "Isi Deskripsi"),
+	image: z.string().min(1, "Isi Gambar"),
 	price: z.string().min(1, "Isi Price"),
 	status: z.string().min(1, "Isi Status"),
 	carBrandId: z.string().optional(),

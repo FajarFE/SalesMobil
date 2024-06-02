@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "@/libs/providers";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { Layout } from "@/components/Layouts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,5 +19,5 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return <DefaultLayout>{children}</DefaultLayout>;
+	return <Layout>{children}</Layout>;
 }

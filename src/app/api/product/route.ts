@@ -14,6 +14,7 @@ export async function POST(req: Request, res: Response) {
 		description,
 		performance,
 		safety,
+		image,
 		exteriorImage,
 		interiorImage,
 		status,
@@ -39,6 +40,7 @@ export async function POST(req: Request, res: Response) {
 
 		const createData = await prisma.postProduct.create({
 			data: {
+				image: image,
 				title: title,
 				userId: userData.id,
 				description: description,

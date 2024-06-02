@@ -8,6 +8,10 @@ import Image from "next/image";
 const Header = (props: {
 	sidebarOpen: string | boolean | undefined;
 	setSidebarOpen: (arg0: boolean) => void;
+	children1: React.ReactNode;
+	children2: React.ReactNode;
+	image: string | null;
+	name: string | null;
 }) => {
 	return (
 		<header className='sticky top-0 z-999 flex w-full border-b-2 shadow-lg bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none'>
@@ -103,8 +107,12 @@ const Header = (props: {
 					</ul>
 
 					{/* <!-- User Area --> */}
-					<DropdownUser />
-					{/* <!-- User Area --> */}
+					<DropdownUser
+						image={props.image}
+						name={props.name}
+						children1={props.children1}
+						children2={props.children2}
+					/>
 				</div>
 			</div>
 		</header>

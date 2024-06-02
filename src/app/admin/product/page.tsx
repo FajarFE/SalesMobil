@@ -10,7 +10,7 @@ export default async function Home() {
 	const user = await auth();
 
 	const userData = await findUserByEmail(user?.user?.email as string);
-	console.log(userData?.id);
+	console.log(userData);
 
 	const category = await prisma.carBrand.findFirst({
 		where: { userId: userData?.id },
@@ -25,11 +25,38 @@ export default async function Home() {
 		},
 	});
 
-	console.log(dataProduct, "aowkdoadoa");
+	const productCount = await prisma.postProduct.count({
+		where: { userId: userData?.id },
+	});
+
+	const archivedCount = await prisma.postProduct.count({
+		where: {
+			userId: userData?.id,
+			status: "ARCHIVED",
+		},
+	});
+	const publishCount = await prisma.postProduct.count({
+		where: {
+			userId: userData?.id,
+			status: "PUBLISHED",
+		},
+	});
+	const draftCount = await prisma.postProduct.count({
+		where: {
+			userId: userData?.id,
+			status: "DRAFT",
+		},
+	});
 
 	return (
 		<div className='w-full h-auto '>
-			<Product data={dataProduct && dataProduct} />
+			<Product
+				archivedCount={archivedCount.toString() ?? "0"}
+				draftCount={draftCount.toString() ?? "0"}
+				publishCount={publishCount.toString() ?? "0"}
+				productCount={productCount.toString() ?? "0"}
+				data={dataProduct && dataProduct}
+			/>
 		</div>
 	);
 }

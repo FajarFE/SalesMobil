@@ -16,9 +16,18 @@ export async function POST(req: Request, res: Response) {
 		if (!user?.user?.email) {
 			throw new AuthError("Email not found in user data");
 		}
+
+		const userData = await findUserByEmail(user.user.email);
+
+		if (!userData) {
+			throw new Error("User data not found");
+			console.log(userData);
+		}
+
 		const createData = await prisma.testimonial.create({
 			data: {
 				customer: customer,
+				userId: userData.id,
 				image: image,
 				testimoni: testimoni,
 				carBrandId: carBrandId,

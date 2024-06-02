@@ -9,7 +9,7 @@ import { FaArrowRight } from "react-icons/fa";
 import { Pagination } from "swiper/modules";
 import Link from "next/link";
 
-interface carBrand {
+interface CarBrand {
 	name: string;
 }
 
@@ -18,7 +18,7 @@ interface Product {
 	title: string;
 	price: string;
 	image: string;
-	category: carBrand;
+	carBrand?: CarBrand | null; // Allowing carBrand to be null or undefined
 }
 
 interface ProductProps {
@@ -51,7 +51,7 @@ export const ProductSection = ({ data }: ProductProps) => {
 										<CardProduct
 											id={item.id}
 											title={item.title}
-											category={item.category}
+											carBrand={item?.carBrand}
 											price={item.price}
 											image={item.image}
 										/>

@@ -11,10 +11,15 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
 import { RiDoubleQuotesL } from "react-icons/ri";
+
+interface CarBrand {
+	name: string;
+}
 interface Slide {
 	testimoni: string;
 	customer: string;
 	image?: string;
+	carBrand: CarBrand | null;
 }
 
 interface DemoSliderProps {
@@ -65,19 +70,28 @@ const SliderTestimoni: React.FC<DemoSliderProps> = ({ data }) => {
 													<div className='text-6xl py-5 pl-[180px] font-bold'>
 														WHAT CUSTOMER SAY
 													</div>
-													<div className='flex flex-col justify-between items-center w-full h-[51%]'>
+													<div className='flex flex-col justify-between items-start w-full h-[51%]'>
 														<div className='text-2xl py-5 pl-[50px] pr-[80px] font-reguler'>
 															{data.testimoni}
 														</div>
-														<div className='flex justify-start  font-bold text-2xl items-start w-full pl-[50px] pr-[70px]'>
-															{data.customer}
+														<div className='flex justify-start  font-bold text-2xl items-start gap-5 w-full pl-[50px] pr-[70px]'>
+															<div>{data.customer}</div>
+															<div>|</div>
+															<div>{data?.carBrand?.name}</div>
 														</div>
 													</div>
 
 													<span className=' absolute border-b-[1px] border-[#A89A89] w-[50%] top-[100px] right-[170px]'></span>
 												</div>
 												<div className='col-span-3 w-full h-full pr-12 py-12 relative'>
-													<div className='rounded-3xl bg-[#A89A89] h-full relative flex w-full'>
+													<div className='rounded-3xl bg-[#A89A89] overflow-hidden h-full relative flex w-full'>
+														<Image
+															src={`http://localhost:3000/images/${data.image}`}
+															alt={`uploaded Image`}
+															width='100'
+															height={100}
+															className='rounded-lg w-full h-full object-cover'
+														/>
 														<span className='h-20 w-20 rounded-3xl bg-[#A89A89] absolute bottom-0 left-[30px] z-[100]'></span>
 														<span className='h-20 w-20 rounded-3xl bg-[#A89A89] absolute bottom-[28px] left-[0] z-[100]'></span>
 														<span className='h-[20px] rotate-45 w-[67px] rounded-3xl bg-[#A89A89] absolute bottom-[17px] -left-1 z-[100]'></span>

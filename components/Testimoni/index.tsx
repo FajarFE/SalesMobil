@@ -12,34 +12,35 @@ import FormCreateProducts, { carBrand, dataCategory } from "../createProduct";
 import { FaCar } from "react-icons/fa";
 import { RiArchiveDrawerFill, RiDraftFill } from "react-icons/ri";
 import { MdOutlinePublish } from "react-icons/md";
-import { DataTestimoni, TableTestimoni } from "../tableTestimoni";
+import { TableTestimoni, Testimoni as tsTestimoni } from "../tableTestimoni";
 
-export const Testimoni = ({ data }: DataTestimoni) => {
+export interface DataTestimoni {
+	data: tsTestimoni[];
+	archivedCount: string;
+	testimoniCount: string;
+	draftCount: string;
+	publishCount: string;
+}
+export const Testimoni = ({
+	data,
+	archivedCount,
+	testimoniCount,
+	draftCount,
+	publishCount,
+}: DataTestimoni) => {
 	return (
 		<>
 			<div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5'>
-				<CardDataStats
-					title='Total Product'
-					total='$3.456K'
-					rate='0.43%'
-					levelUp>
+				<CardDataStats title='Total Testimoni' total={testimoniCount}>
 					<FaCar size={40} />
 				</CardDataStats>
-				<CardDataStats
-					title='Total Archived'
-					total='$45,2K'
-					rate='4.35%'
-					levelUp>
+				<CardDataStats title='Total Archived' total={archivedCount}>
 					<RiArchiveDrawerFill size={40} />
 				</CardDataStats>
-				<CardDataStats title='Total Draft' total='2.450' rate='2.59%' levelUp>
+				<CardDataStats title='Total Draft' total={draftCount}>
 					<RiDraftFill size={40} />
 				</CardDataStats>
-				<CardDataStats
-					title='Total Publish'
-					total='3.456'
-					rate='0.95%'
-					levelDown>
+				<CardDataStats title='Total Publish' total={publishCount}>
 					<MdOutlinePublish size={40} />
 				</CardDataStats>
 			</div>
