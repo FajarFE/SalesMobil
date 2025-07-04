@@ -1,124 +1,168 @@
 // src/components/signup/form.tsx
 
 // Ensuring client-side code
-"use client";
+'use client';
 
 // Importing necessary modules and components
-import Link from "next/link";
-import { signUp } from "@/actions/signup";
-import { useFormState, useFormStatus } from "react-dom";
-import Image from "next/image";
-interface RegisterForm {
-	children: React.ReactNode;
-}
-export default function Form({ children }: RegisterForm) {
-	// Using useFormState to manage the form state and handle sign-up actions
-	const [formState, action] = useFormState(signUp, {
-		errors: {},
-	});
+import Link from 'next/link';
+import { signUp } from '@/actions/signup'; // Server Action untuk signup email
+import { useFormState, useFormStatus } from 'react-dom';
+import Image from 'next/image';
+import { signIn } from 'next-auth/react'; // Fungsi untuk provider login
+import { FaGoogle } from 'react-icons/fa6'; // Ikon Google
 
-	const { pending } = useFormStatus();
+export default function Form() {
+  // State untuk form pendaftaran email/password
+  const [formState, action] = useFormState(signUp, {
+    errors: {},
+  });
 
-	return (
-		<div className='w-full h-screen grid grid-cols-12 bg-black relative'>
-			<Image
-				src='https://s7d1.scene7.com/is/image/hyundai/2024-ev-campaign-hp2-ext-1440-1919?wid=1919&qlt=85,0&fmt=webp'
-				alt='anjay'
-				width={2200}
-				height={900}
-				className='absolute bottom-0 w-[2200px]'
-			/>
-			<form
-				className='w-full h-full p-10 z-10 col-span-4 justify-center items-center flex'
-				action={action}>
-				<div className='flex flex-col gap-10 px-20 rounded-lg h-full w-full justify-center items-center bg-gray-50  pb-4 pt-8'>
-					<h1 className='mb-3 text-2xl'>Sign Up Now!</h1>
-					<div className='w-full mb-4'>
-						{/* Email Input */}
-						<div>
-							<label
-								className='mb-3 mt-5 block text-xs font-medium text-gray-900'
-								htmlFor='email'>
-								Email
-							</label>
-							<input
-								className='peer block w-full rounded-md border border-gray-200 py-[9px] px-3 text-sm outline-2 placeholder:text-gray-500'
-								placeholder='Enter your email'
-								type='email'
-								id='email'
-								name='email'
-								defaultValue=''
-							/>
-							{/* Displaying email errors if any */}
-							{formState?.errors.email && (
-								<div className='text-sm text-red-500'>
-									{formState.errors.email.join(", ")}
-								</div>
-							)}
-						</div>
-						{/* Password Input */}
-						<div>
-							<label
-								className='mb-3 mt-5 block text-xs font-medium text-gray-900'
-								htmlFor='password'>
-								Password
-							</label>
-							<input
-								className='peer block w-full rounded-md border border-gray-200 py-[9px] px-3 text-sm outline-2 placeholder:text-gray-500'
-								placeholder='Enter your password'
-								type='password'
-								id='password'
-								name='password'
-								defaultValue=''
-							/>
-							{/* Displaying password errors if any */}
-							{formState?.errors.password && (
-								<div className='text-sm text-red-500'>
-									{formState.errors.password.join(", ")}
-								</div>
-							)}
-						</div>
-						{/* Name Input */}
-						<div>
-							<label
-								className='mb-3 mt-5 block text-xs font-medium text-gray-900'
-								htmlFor='name'>
-								Name
-							</label>
-							<input
-								className='peer block w-full rounded-md border border-gray-200 py-[9px] px-3 text-sm outline-2 placeholder:text-gray-500'
-								placeholder='Enter your name'
-								type='text'
-								id='name'
-								name='name'
-								defaultValue=''
-							/>
-						</div>
-						{/* Displaying name errors if any */}
-						{formState?.errors.name && (
-							<div className='text-sm text-red-500'>
-								{formState.errors.name.join(", ")}
-							</div>
-						)}
-					</div>
-					{/* Including the SignupButton component */}
-					<button
-						className='bg-gray-200 py-2 rounded w-full disabled:bg-slate-50 disabled:text-slate-500'
-						disabled={pending ? true : false}>
-						{/* Displaying "Sign Up" or "Sign Up ..." based on the form status */}
-						Sign Up {pending ? "..." : ""}
-					</button>
-					<div className='mt-4 text-center'>
-						{/* Providing a link to the login page */}
-						Already have an account?&nbsp;
-						<Link className='underline' href='/login'>
-							Login
-						</Link>
-					</div>
-					{children}
-				</div>
-			</form>
-			<div className='col-span-8 relative flex w-full h-full justify-center items-center'></div>
-		</div>
-	);
+  // Hook untuk status pending dari tombol submit utama
+  const { pending } = useFormStatus();
+
+  // Aksi yang akan dipicu oleh tombol Google
+  const googleSignInAction = async () => {
+    // Memanggil fungsi signIn dari NextAuth untuk provider 'google'
+    // CallbackUrl adalah halaman tujuan setelah berhasil sign up/login
+    await signIn('google', { callbackUrl: '/admin/product' });
+  };
+
+  return (
+    <div className="w-full h-screen grid grid-cols-12 bg-black relative">
+      <Image
+        src="https://s7d1.scene7.com/is/image/hyundai/2024-ev-campaign-hp2-ext-1440-1919?wid=1919&qlt=85,0&fmt=webp"
+        alt="Background Mobil"
+        layout="fill"
+        objectFit="cover"
+        className="opacity-50"
+      />
+
+      {/* Kolom kosong untuk layout di layar besar */}
+      <div className="hidden md:block md:col-span-8"></div>
+
+      {/* Kolom untuk form, dibuat responsif */}
+      <div className="col-span-12 md:col-span-4 bg-gray-50 flex items-center justify-center p-6 sm:p-10 z-10">
+        <div className="w-full max-w-md">
+          {/* Form utama dengan action untuk signup email */}
+          <form action={action} className="space-y-4">
+            <h1 className="text-2xl font-semibold text-center text-gray-900">
+              Create an Account
+            </h1>
+
+            {/* Grup input fields */}
+            <div className="space-y-4">
+              {/* Name Input */}
+              <div>
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="name"
+                >
+                  Full Name
+                </label>
+                <input
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
+                  placeholder="Enter your name"
+                  type="text"
+                  id="name"
+                  name="name"
+                />
+                {formState?.errors.name && (
+                  <div className="text-sm text-red-500 mt-1">
+                    {formState.errors.name.join(', ')}
+                  </div>
+                )}
+              </div>
+
+              {/* Email Input */}
+              <div>
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="email"
+                >
+                  Email
+                </label>
+                <input
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
+                  placeholder="Enter your email"
+                  type="email"
+                  id="email"
+                  name="email"
+                />
+                {formState?.errors.email && (
+                  <div className="text-sm text-red-500 mt-1">
+                    {formState.errors.email.join(', ')}
+                  </div>
+                )}
+              </div>
+
+              {/* Password Input */}
+              <div>
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="password"
+                >
+                  Password
+                </label>
+                <input
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
+                  placeholder="Enter your password"
+                  type="password"
+                  id="password"
+                  name="password"
+                />
+                {formState?.errors.password && (
+                  <div className="text-sm text-red-500 mt-1">
+                    {formState.errors.password.join(', ')}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Tombol Sign Up untuk email/password */}
+            <button
+              type="submit"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400"
+              disabled={pending}
+            >
+              Sign Up {pending ? '...' : ''}
+            </button>
+
+            {/* Pemisah "OR" */}
+            <div className="relative flex py-2 items-center">
+              <div className="flex-grow border-t border-gray-300"></div>
+              <span className="flex-shrink mx-4 text-gray-400 text-sm">OR</span>
+              <div className="flex-grow border-t border-gray-300"></div>
+            </div>
+
+            {/* 
+              !!! KUNCI PERUBAHAN !!!
+              Tombol ini juga `type="submit"`, tapi menggunakan `formAction`
+              untuk memicu aksi yang berbeda, yaitu login/signup via Google.
+            */}
+            <button
+              type="submit"
+              formAction={googleSignInAction}
+              className="w-full flex justify-center items-center gap-3 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <FaGoogle size={20} />
+              <span>Sign Up with Google</span>
+            </button>
+
+            {/* Link ke halaman login */}
+            <div className="text-sm text-center mt-4">
+              <p className="text-gray-600">
+                Already have an account? 
+                <Link
+                  href="/login"
+                  className="font-medium text-blue-600 hover:text-blue-500"
+                >
+                  Login
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 }

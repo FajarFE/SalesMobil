@@ -1,106 +1,149 @@
-"use client";
+'use client';
 
 // Importing necessary dependencies
-import Link from "next/link";
-import { useFormState, useFormStatus } from "react-dom";
+import Link from 'next/link';
+import { useFormState, useFormStatus } from 'react-dom';
+import { redirect } from 'next/navigation';
+import { authenticate } from '@/libs/email'; // Asumsi server action untuk email
+import { signIn } from 'next-auth/react'; // Gunakan signIn dari next-auth/react untuk client component
+import Image from 'next/image';
+import { FaGoogle } from 'react-icons/fa6';
 
-import { redirect, useSearchParams } from "next/navigation";
-import { authenticate } from "@/libs/email";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
+export default function Form() {
+  // 1. Form state untuk login email/password
+  const [formState, action] = useFormState(authenticate, undefined);
 
-// Defining the Login Form Component
+  // Hook untuk mendapatkan status pending dari form
+  const { pending } = useFormStatus();
 
-interface LoginForm {
-	children: React.ReactNode;
-}
-export default function Form({ children }: LoginForm) {
-	// Obtaining form state and action from useFormState hook
-	const [formState, action] = useFormState(authenticate, "awdoikaodkoad");
-	const { data: session } = useSession();
-	// Handling email verification redirection
-	// remember isUsersEmailVerified function in server action
-	if (formState?.startsWith("EMAIL_NOT_VERIFIED")) {
-		// extract the email
-		redirect(`/email/verify/send?email=${formState.split(":")[1]}`);
-	}
+  // Redirect jika email belum terverifikasi (dari server action email/password)
+  if (formState?.startsWith('EMAIL_NOT_VERIFIED')) {
+    redirect(`/email/verify/send?email=${formState.split(':')[1]}`);
+  }
 
-	console.log(session);
-	const { pending } = useFormStatus();
+  // Server Action khusus untuk Google Sign-In, diletakkan di dalam `formAction`
+  const googleSignInAction = async () => {
+    // Kita tidak perlu "use server" di sini karena signIn dari 'next-auth/react'
+    // akan menangani prosesnya di client-side, yang kemudian berkomunikasi ke server.
+    await signIn('google', { callbackUrl: '/admin/product' });
+  };
 
-	// Rendering the Login Form JSX content
-	return (
-		<div className='w-full h-screen grid grid-cols-12 bg-black relative'>
-			<Image
-				src='https://s7d1.scene7.com/is/image/hyundai/2024-ev-campaign-hp2-ext-1440-1919?wid=1919&qlt=85,0&fmt=webp'
-				alt='anjay'
-				width={2200}
-				height={900}
-				className='absolute bottom-0 w-[2200px]'
-			/>
+  return (
+    <div className="w-full h-screen grid grid-cols-12 bg-black relative">
+      <Image
+        src="https://s7d1.scene7.com/is/image/hyundai/2024-ev-campaign-hp2-ext-1440-1919?wid=1919&qlt=85,0&fmt=webp"
+        alt="Background Mobil"
+        layout="fill"
+        objectFit="cover"
+        className="opacity-50"
+      />
 
-			<div className='col-span-8 relative flex w-full h-full justify-center items-center'></div>
-			<form
-				className='w-full h-full p-10 z-10 col-span-4 justify-center items-center flex'
-				action={action}>
-				<div className='flex justify-center items-center flex-col rounded-2xl w-full h-full bg-gray-50 pb-4 pt-8 gap-10 px-20'>
-					<h1 className='mb-3 text-2xl'>Please log in to continue.</h1>
-					<div className='w-full mb-4'>
-						{/* Email Input Field */}
-						<div>
-							<label
-								className='mb-3 mt-5 block text-xs font-medium text-gray-900'
-								htmlFor='email'>
-								Email
-							</label>
-							<input
-								className='peer block w-full rounded-md border border-gray-200 py-[9px] px-3 text-sm outline-2 placeholder:text-gray-500'
-								id='email'
-								type='email'
-								name='email'
-								placeholder='Enter your email address'
-								required
-							/>
-						</div>
-						{/* Password Input Field */}
-						<div>
-							<label
-								className='mb-3 mt-5 block text-xs font-medium text-gray-900'
-								htmlFor='password'>
-								Password
-							</label>
-							<input
-								className='peer block w-full rounded-md border border-gray-200 py-[9px] px-3 text-sm outline-2 placeholder:text-gray-500'
-								id='password'
-								type='password'
-								name='password'
-								placeholder='Enter password'
-								required
-								minLength={6}
-							/>
-						</div>
-						{/* Displaying form state error */}
-						{formState && (
-							<div className='text-sm text-red-500'>{formState}</div>
-						)}
-					</div>
-					{/* Login Button */}
-					<button
-						type='submit'
-						className='bg-gray-200 py-2 rounded w-full disabled:bg-slate-50 disabled:text-slate-500'
-						disabled={pending ? true : false}>
-						Login {pending ? "..." : ""}
-					</button>
-					{/* Link to Signup Page */}
-					<div className='mt-4 text-center'>
-						Don&apos;t have an account?&nbsp;
-						<Link className='underline' href='/register'>
-							Sign Up
-						</Link>
-					</div>
-					{children}
-				</div>
-			</form>
-		</div>
-	);
+      <div className="hidden md:block md:col-span-8"></div>
+
+      {/* Form container */}
+      <div className="col-span-12 md:col-span-4 bg-gray-50 flex items-center justify-center p-6 sm:p-10 z-10">
+        <div className="w-full max-w-md">
+          {/* 
+            Satu Form untuk semua aksi. 
+            'action' utama adalah untuk email/password.
+          */}
+          <form action={action} className="space-y-6">
+            <h1 className="text-2xl font-semibold text-center text-gray-900">
+              Please log in to continue.
+            </h1>
+
+            {/* Input fields untuk Email & Password */}
+            <div>
+              {/* Email Input Field */}
+              <div>
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="email"
+                >
+                  Email
+                </label>
+                <input
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  required
+                />
+              </div>
+
+              {/* Password Input Field */}
+              <div className="mt-4">
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="password"
+                >
+                  Password
+                </label>
+                <input
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="Enter password"
+                  required
+                  minLength={6}
+                />
+              </div>
+            </div>
+
+            {/* Menampilkan pesan error dari login email */}
+            {formState && !formState.startsWith('EMAIL_NOT_VERIFIED') && (
+              <div className="text-sm text-red-600 text-center">
+                {formState}
+              </div>
+            )}
+
+            {/* Tombol Login untuk Email/Password */}
+            <button
+              type="submit"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400"
+              disabled={pending}
+            >
+              Login {pending ? '...' : ''}
+            </button>
+
+            {/* Pemisah */}
+            <div className="relative flex py-2 items-center">
+              <div className="flex-grow border-t border-gray-300"></div>
+              <span className="flex-shrink mx-4 text-gray-400 text-sm">OR</span>
+              <div className="flex-grow border-t border-gray-300"></div>
+            </div>
+
+            {/* 
+              !!! KUNCI PERUBAHAN !!!
+              Tombol ini juga `type="submit"`, tapi menggunakan `formAction`
+              untuk memicu server action yang berbeda.
+            */}
+            <button
+              type="submit"
+              formAction={googleSignInAction}
+              className="w-full flex justify-center items-center gap-3 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <FaGoogle size={20} />
+              <span>Sign in with Google</span>
+            </button>
+
+            {/* Link ke halaman Sign Up */}
+            <div className="text-sm text-center">
+              <p className="text-gray-600">
+                Don&apos;t have an account? 
+                <Link
+                  href="/register"
+                  className="font-medium text-blue-600 hover:text-blue-500"
+                >
+                  Sign Up
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 }
